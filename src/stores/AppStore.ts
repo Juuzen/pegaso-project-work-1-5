@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthState {
   authState: { user: string | null; isAuthenticated: boolean };
@@ -12,17 +13,23 @@ interface SidebarState {
   setSidebar: (isOpen: boolean) => void;
 }
 
-export const useAppStore = create<AuthState & SidebarState>()((set) => ({
-  authState: { user: null, isAuthenticated: false },
-  login: () =>
-    set(() => ({
-      authState: { user: "cicciopasticcio", isAuthenticated: true },
-    })),
-  logout: () =>
-    set(() => ({ authState: { user: null, isAuthenticated: false } })),
+export const useAppStore = create<AuthState & SidebarState>()(
+  persist(
+    (set, get) => ({
+      authState: { user: null, isAuthenticated: false },
+      login: () =>
+        set({
+          authState: { user: "cicciopasticcio", isAuthenticated: true },
+        }),
+      logout: () => set({ authState: { user: null, isAuthenticated: false } }),
 
-  isSidebarOpen: false,
-  toggleSidebar: () =>
-    set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
-  setSidebar: (isOpen) => set(() => ({ isSidebarOpen: isOpen })),
-}));
+      isSidebarOpen: false,
+      toggleSidebar: () => set(() => ({ isSidebarOpen: !get().isSidebarOpen })),
+      setSidebar: (isOpen) => set(() => ({ isSidebarOpen: isOpen })),
+    }),
+    {
+      name: "pegaso-app-storage",
+      partialize: (state) => ({ authState: state.authState }),
+    }
+  )
+);
