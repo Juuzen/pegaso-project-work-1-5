@@ -1,0 +1,42 @@
+.loginContainer {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../../assets/login-bg.avif");
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .cardTitleContainer {
+    padding: 16px;
+
+    .cardTitle {
+      display: flex;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .cardSubtitle {
+      display: flex;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .cardForm {
+    padding: 16px;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+}
